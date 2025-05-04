@@ -18,6 +18,7 @@ export class UsuarioComponent implements OnInit {
   title : string = 'Listado de usuarios';
   id !: number;
   encabezado : any;
+  modoRegistro: boolean = true;
 
   constructor(
     private _usuarioService: UsuarioService
@@ -43,7 +44,7 @@ export class UsuarioComponent implements OnInit {
         rol : new FormControl('A'),
       })
   }
-  
+
   obtenerUsuario(){
         this._usuarioService.listarUsuario()
         .subscribe( (data : any) => {
@@ -60,10 +61,24 @@ export class UsuarioComponent implements OnInit {
       console.log("Usuario con ID = 1", data)
       form.controls['nombre'].setValue(data.nombre)
       form.controls['correo'].setValue(data.correo)
-      form.controls['contrasenia'].setValue(data.contrasenia)
       form.controls['rol'].setValue(data.rol)
     })
    }
+
+  registrarUsuario() {
+    if (this.formUsuario.valid) {
+      this._usuarioService.registrarUsuario(this.formUsuario.value)
+        .subscribe(response => {
+          this.cerrarModal();
+          this.obtenerUsuario();
+          this.resertForm();
+          this.alertExitoso("registrado");
+          console.log("Usuario registrado:", response);
+        }, error => {
+          console.error("Error al registrar usuario:", error);
+        });
+    }
+  } 
 
   editarUsuario(id : number, formulario : any) : void{
     if(this.formUsuario.valid){
@@ -93,6 +108,14 @@ export class UsuarioComponent implements OnInit {
       }
     })
    }
+
+   guardarUsuario() {
+    if (this.id != null) {
+      this.alertaModificar();
+    } else {
+      this.registrarUsuario();
+    }
+  }
 
    alertEliminar(id : number){
     Swal.fire({
@@ -127,11 +150,30 @@ export class UsuarioComponent implements OnInit {
     });
    }
 
+   alertaRegistrar() {
+    Swal.fire({
+      title: '¿Estás seguro de registrar este usuario?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, registrar',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.alertExitoso("Registrado");
+      }
+    });
+  }  
+
    titulo( titulo : string , id : any ){
     this.encabezado = `${titulo} usuario`;
 
     if( id != null ){
+      this.modoRegistro = false;
       this.obtenerUsuarioPorId(id);
+    }
+    else {
+      this.modoRegistro = true; // cuando se registra
+      this.resertForm();
     }
 
    }

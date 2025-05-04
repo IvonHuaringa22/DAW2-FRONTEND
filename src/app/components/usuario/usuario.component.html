@@ -21,7 +21,6 @@
         <table class="table">
           <thead>
             <tr>
-              <th scope="col">#</th>
               <th scope="col">ID</th>
               <th scope="col">Nombre</th>
               <th scope="col">Correo</th>
@@ -32,7 +31,6 @@
           </thead>
           <tbody>
             <tr *ngFor="let lista of listaUsuario; index as i">
-              <th scope="row"> {{ i + 1 }} </th>
               <td> {{ lista.idUsuario }} </td>
               <td> {{ lista.nombre }} </td>
               <td> {{ lista.correo }} </td>
@@ -52,10 +50,10 @@
       </div>
     </div>
   
-  
+
     <!--MODAL-->
     <form [formGroup]="formUsuario">
-      <div class="modal fade" idUsuario="modalUsuario">
+      <div class="modal fade" id="modalUsuario">
         <div class="modal-dialog modal-dialog-centered modal-lg">
           <div class="modal-content">
             <div class="modal-header">
@@ -73,26 +71,37 @@
                     <label for="Correo">Correo</label>
                   </div>
                 </div>
+
                 <div class="col-6">
-                  <div class="form-floating">
-                    <input type="text" class="form-control" placeholder="Rol" formControlName="rol" required>
-                    <label for="Rol">Rol</label>
-                  </div>
-                </div>
-                <div class="col-12">
+
                   <div class="form-floating mb-3">
                     <select class="form-select" formControlName="rol">
-                      <option value="A">ADMIN</option>
-                      <option value="U">USER</option>
+                      <option value="ADMIN">ADMIN</option>
+                      <option value="USER">USER</option>
                     </select>
-                    <label for="">Estado</label>
+                    <label for="">Rol</label>
+                  </div>
+
+                  <div class="form-floating mb-3" *ngIf="modoRegistro">
+                    <input type="password" id="contrasenia" formControlName="contrasenia" class="form-control" />
+                    <label for="contrasenia" class="form-label">Contraseña</label> 
                   </div>
                 </div>
               </div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" (click)="cerrarBoton()">Cerrar</button>
-              <button type="submit" class="btn btn-primary" (click)="alertaModificar()">Guardar</button>
+              <button 
+                *ngIf="id != null" 
+                type="button" 
+                class="btn btn-primary" 
+                (click)="alertaModificar()">Guardar Cambios</button>
+
+              <button 
+                *ngIf="id == null" 
+                type="button" 
+                class="btn btn-success" 
+                (click)="registrarUsuario()">Registrar</button>
             </div>
           </div>
         </div>

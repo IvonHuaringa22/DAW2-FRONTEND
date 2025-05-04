@@ -1,0 +1,102 @@
+<div class="container">
+    <br>
+    <div class="row">
+      <div class="col-12">
+        <div class="row section-banner">
+          <div class="col-6">
+            <h2> {{ title }} </h2>
+          </div>
+          <div class="col-6 btn-agregar">
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalUsuario" 
+            (click)="titulo('Crear', null)">
+                Crear nuevo
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="row p-5">
+      <div class="col-12">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">ID</th>
+              <th scope="col">Nombre</th>
+              <th scope="col">Correo</th>
+              <th scope="col">Rol</th>
+              <th scope="col">Editar</th>
+              <th scope="col">Eliminar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let lista of listaUsuario; index as i">
+              <th scope="row"> {{ i + 1 }} </th>
+              <td> {{ lista.idUsuario }} </td>
+              <td> {{ lista.nombre }} </td>
+              <td> {{ lista.correo }} </td>
+              <td> {{ lista.rol }} </td>
+              <td>
+                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalUsuario"
+                (click)="titulo( 'Editar' ,lista.idUsuario )">
+                  Editar
+                </button>
+              </td>
+              <td>
+                <button class="btn btn-danger" (click)="alertEliminar( lista.idUsuario )">Eliminar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  
+  
+    <!--MODAL-->
+    <form [formGroup]="formUsuario">
+      <div class="modal fade" idUsuario="modalUsuario">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5> {{ encabezado }} </h5>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-6">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" placeholder="Nombre" formControlName="nombre" required>
+                    <label for="Nombre">Nombre</label>
+                  </div>
+                  <div class="form-floating">
+                    <input type="email" class="form-control" placeholder="Correo" formControlName="correo" required>
+                    <label for="Correo">Correo</label>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" placeholder="Rol" formControlName="rol" required>
+                    <label for="Rol">Rol</label>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-floating mb-3">
+                    <select class="form-select" formControlName="rol">
+                      <option value="A">ADMIN</option>
+                      <option value="U">USER</option>
+                    </select>
+                    <label for="">Estado</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" (click)="cerrarBoton()">Cerrar</button>
+              <button type="submit" class="btn btn-primary" (click)="alertaModificar()">Guardar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+</div>
+  

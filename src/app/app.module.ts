@@ -5,11 +5,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { UsuarioComponent } from './components/usuario/usuario.component';
 import { HttpClientModule } from '@angular/common/http';
+import { EventoComponent } from './components/evento/evento.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    UsuarioComponent
+    UsuarioComponent,
+    EventoComponent
   ],
   imports: [
     BrowserModule,

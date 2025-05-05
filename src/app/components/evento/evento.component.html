@@ -1,1 +1,118 @@
-<p>evento works!</p>
+<div class="container">
+    <br>
+    <div class="row">
+      <div class="col-12">
+        <div class="row section-banner">
+          <div class="col-6">
+            <h2> {{ title }} </h2>
+          </div>
+          <div class="col-6 btn-agregar">
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalEvento" 
+            (click)="titulo('Crear', null)">
+                Crear nuevo
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="row p-5">
+      <div class="col-12">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Nombre Evento</th>
+              <th scope="col">Tipo Evento</th>
+              <th scope="col">Lugar</th>
+              <th scope="col">Fecha</th>
+              <th scope="col">Hora</th>
+			  <th scope="col">Descripción</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let lista of listaEvento; index as i">
+              <td> {{ lista.idEvento }} </td>
+              <td> {{ lista.nombreEvento }} </td>
+              <td> {{ lista.tipoEvento }} </td>
+              <td> {{ lista.lugar }} </td>
+              <td> {{ lista.fecha }} </td>
+              <td> {{ lista.hora }} </td>
+              <td> {{ lista.descripcion }} </td>
+              <td>
+                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalEvento"
+                (click)="titulo( 'Editar' ,lista.idEvento )">
+                  Editar
+                </button>
+              </td>
+              <td>
+                <button class="btn btn-danger" (click)="alertaEliminar( lista.idEvento )">Eliminar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  
+
+    <!--MODAL-->
+    <form [formGroup]="formEvento">
+      <div class="modal fade" id="modalEvento">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5> {{ encabezado }} </h5>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-6">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" placeholder="Nombre Evento" formControlName="nombreEvento" required>
+                    <label for="Nombre">Nombre Evento</label>
+                  </div>
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" placeholder="Tipo Evento" formControlName="tipoEvento" required>
+                    <label for="Correo">Tipo Evento</label>
+                  </div>
+				          <div class="form-floating mb-3">
+                    <input type="text" class="form-control" placeholder="Lugar" formControlName="lugar" required>
+                    <label for="Lugar">Lugar</label>
+                  </div>				  
+                </div>
+
+                <div class="col-6">
+                  <div class="form-floating mb-3">
+                    <input type="date" class="form-control" placeholder="Fecha" formControlName="fecha" required>
+                    <label for="Fecha">Fecha</label>
+                  </div>
+                  <div class="form-floating mb-3">
+                    <input type="time" class="form-control" placeholder="Hora" formControlName="hora" required>
+                    <label for="Hora">Hora</label>
+                  </div>
+				          <div class="form-floating mb-3">
+                    <textarea class="form-control" placeholder="Descripción" formControlName="descripcion" required></textarea>
+                    <label for="Descripción">Descripción</label>
+                  </div>
+                </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" (click)="cerrarBoton()">Cerrar</button>
+              <button 
+                *ngIf="id != null" 
+                type="button" 
+                class="btn btn-primary" 
+                (click)="alertaModificar()">Guardar Cambios</button>
+
+              <button 
+                *ngIf="id == null" 
+                type="button" 
+                class="btn btn-success" 
+                (click)="registrarEvento()">Registrar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+</div>
+  

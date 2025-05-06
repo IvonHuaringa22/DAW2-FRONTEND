@@ -36,13 +36,13 @@
               <td> {{ lista.correo }} </td>
               <td> {{ lista.rol }} </td>
               <td>
-                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalUsuario"
+                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalUpdateUsuario"
                 (click)="titulo( 'Editar' ,lista.idUsuario )">
                   Editar
                 </button>
               </td>
               <td>
-                <button class="btn btn-danger" (click)="alertEliminar( lista.idUsuario )">Eliminar</button>
+                <button class="btn btn-danger" (click)="alertaEliminar( lista.idUsuario )">Eliminar</button>
               </td>
             </tr>
           </tbody>
@@ -65,10 +65,79 @@
                   <div class="form-floating mb-3">
                     <input type="text" class="form-control" placeholder="Nombre" formControlName="nombre" required>
                     <label for="Nombre">Nombre</label>
+                    <div *ngIf="formUsuario.controls['nombre'].touched && formUsuario.controls['nombre'].invalid" class="text-danger">
+                      El nombre es obligatorio
+                    </div>
                   </div>
                   <div class="form-floating">
                     <input type="email" class="form-control" placeholder="Correo" formControlName="correo" required>
                     <label for="Correo">Correo</label>
+                    <div *ngIf="formUsuario.controls['correo'].touched && formUsuario.controls['correo'].errors?.['required']" class="text-danger">
+                      El correo es obligatorio
+                    </div>
+                    <div *ngIf="formUsuario.controls['correo'].touched && formUsuario.controls['correo'].errors?.['email']" class="text-danger">
+                      El correo no es válido
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-6">
+
+                  <div class="form-floating mb-3">
+                    <select class="form-select" formControlName="rol">
+                      <option value="">Seleccione un rol</option>
+                      <option value="ADMIN">ADMIN</option>
+                      <option value="USER">USER</option>
+                    </select>
+                    <label for="">Rol</label>
+                    <div *ngIf="formUsuario.controls['rol'].touched && formUsuario.controls['rol'].invalid" class="text-danger">
+                      El rol es obligatorio
+                    </div>
+                  </div>
+                  <div class="form-floating mb-3">
+                    <input type="password" id="contrasenia" formControlName="contrasenia" class="form-control" value="" required/>
+                    <label for="contrasenia" class="form-label">Contraseña</label> 
+                    <div *ngIf="formUsuario.controls['contrasenia'].touched && formUsuario.controls['contrasenia'].invalid" class="text-danger">
+                      La contraseña es obligatorio
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" (click)="cerrarBoton('Crear')">Cerrar</button>
+              <button type="submit" class="btn btn-primary" (click)="crearEditarUsuario(nameBoton)"> {{ nameBoton }} </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+
+    <!--MODAL UPDATE USUARIO-->
+    <form [formGroup]="formUpdateUsuario">
+      <div class="modal fade" id="modalUpdateUsuario">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5> {{ encabezado }} </h5>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-6">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" placeholder="Nombre" formControlName="nombre" required>
+                    <label for="Nombre">Nombre</label>
+                    <div *ngIf="formUsuario.controls['nombre'].touched && formUsuario.controls['nombre'].invalid" class="text-danger">
+                      El nombre es obligatorio
+                    </div>
+                  </div>
+                  <div class="form-floating">
+                    <input type="email" class="form-control" placeholder="Correo" formControlName="correo" required>
+                    <label for="Correo">Correo</label>
+                    <div *ngIf="formUsuario.controls['correo'].touched && formUsuario.controls['correo'].errors?.['required']" class="text-danger">
+                      El correo es obligatorio
+                    </div>
                   </div>
                 </div>
 
@@ -80,28 +149,16 @@
                       <option value="USER">USER</option>
                     </select>
                     <label for="">Rol</label>
-                  </div>
-
-                  <div class="form-floating mb-3" *ngIf="modoRegistro">
-                    <input type="password" id="contrasenia" formControlName="contrasenia" class="form-control" />
-                    <label for="contrasenia" class="form-label">Contraseña</label> 
+                    <div *ngIf="formUsuario.controls['rol'].touched && formUsuario.controls['rol'].invalid" class="text-danger">
+                      El rol es obligatorio
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" (click)="cerrarBoton()">Cerrar</button>
-              <button 
-                *ngIf="id != null" 
-                type="button" 
-                class="btn btn-primary" 
-                (click)="alertaModificar()">Guardar Cambios</button>
-
-              <button 
-                *ngIf="id == null" 
-                type="button" 
-                class="btn btn-success" 
-                (click)="registrarUsuario()">Registrar</button>
+              <button type="button" class="btn btn-secondary" (click)="cerrarBoton('modalUpdateUsuario')">Cerrar</button>
+              <button type="submit" class="btn btn-primary" (click)="crearEditarUsuario(nameBoton)"> {{ nameBoton }} </button>
             </div>
           </div>
         </div>

@@ -94,21 +94,12 @@
                     <label for="Descripción">Descripción</label>
                   </div>
                 </div>
+                
                 </div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" (click)="cerrarBoton()">Cerrar</button>
-              <button 
-                *ngIf="id != null" 
-                type="button" 
-                class="btn btn-primary" 
-                (click)="alertaModificar()">Guardar Cambios</button>
-
-              <button 
-                *ngIf="id == null" 
-                type="button" 
-                class="btn btn-success" 
-                (click)="registrarEvento()">Registrar</button>
+              <button type="submit" class="btn btn-primary" (click)="crearEditarEvento(nameBoton)"> {{ nameBoton }} </button>
             </div>
           </div>
         </div>

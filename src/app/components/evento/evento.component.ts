@@ -18,7 +18,7 @@ export class EventoComponent implements OnInit {
   title : string = 'Listado de eventos';
   id !: number;
   encabezado : any;
-  modoRegistro: boolean = true;
+  nameBoton : any;
 
   constructor(
     private _eventoService: EventoService
@@ -72,34 +72,45 @@ export class EventoComponent implements OnInit {
     })
    }
 
-  registrarEvento() {
-    if (this.formEvento.valid) {
-      this._eventoService.registrarEvento(this.formEvento.value)
-        .subscribe(response => {
-          this.cerrarModal();
-          this.obtenerEvento();
-          this.resertForm();
-          this.alertaExitoso("registrado");
-          console.log("Evento registrado:", response);
-        }, error => {
-          console.error("Error al registrar evento:", error);
-        });
-    }
-  } 
-
-  editarEvento(id : number, formulario : any) : void{
+  registrarEvento(request : any) {
     if(this.formEvento.valid){
-    this._eventoService.actualizarEvento(id, formulario)
+      this._eventoService.registrarEvento(request)
+      .subscribe( response => {
+        console.log("Respuesta: ", response)
+        this.cerrarModal();
+        this.obtenerEvento();
+        this.resertForm();
+      })
+    }
+   }
+
+  editarEvento(id : number, request : any) : void{
+    if(this.formEvento.valid){
+    this._eventoService.actualizarEvento(id, request)
     .subscribe( response => {
     this.cerrarModal();
     this.obtenerEvento();
     this.resertForm();
-    console.log('evento modificado: ' , response)
+    console.log('Evento modificado: ' , response)
     }, error => {
     console.error('Error al modificar el registro: ', error)
     } )
     }
   }
+
+  alertaRegistrar() {
+    Swal.fire({
+      title: '¿Estás seguro de registrar este evento?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, registrar',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.registrarEvento(this.formEvento.value)
+      }
+    });
+  }  
 
   alertaModificar(){
     Swal.fire({
@@ -111,21 +122,11 @@ export class EventoComponent implements OnInit {
     }).then( (result) => {
       if(result.isConfirmed){
         this.editarEvento(this.id, this.formEvento.value)
-        this.alertaExitoso("actualizada");
-        this.resertForm();
       }
     })
-   }
-
-   guardarEvento() {
-    if (this.id != null) {
-      this.alertaModificar();
-    } else {
-      this.registrarEvento();
-    }
   }
 
-  alertaEliminar(id: number): void {
+  alertaEliminar(id: number) {
     Swal.fire({
       title: '¿Estás seguro de eliminar el registro?',
       icon: 'error',
@@ -134,26 +135,20 @@ export class EventoComponent implements OnInit {
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.isConfirmed) {
-        this._eventoService.eliminarEvento(id).subscribe({
-          next: () => {
-            // Actualiza la lista local eliminando el evento
-            this.listaEvento = this.listaEvento.filter((item) => item.idEvento !== id);
-            this.alertaExitoso('eliminada');
-          },
-          error: (err) => {
-            console.error('Error en la eliminación del registro:', err);
-            Swal.fire({
-              icon: 'error',
-              title: 'Error',
-              text: 'Ocurrió un error al intentar eliminar el evento.',
-            });
-          },
+        this._eventoService.eliminarEvento(id).subscribe( (data) => {
+          console.log("Evento eliminado", data)
+          this.listaEvento = this.listaEvento.filter( item => item.id !== id );
+        }, error => {
+          console.error('Error en la eliminacion del registro', error)
         });
+
+        this.alertaExitoso("eliminada");
+
       }
-    });
+    })
   }
 
-   alertaExitoso(titulo : string){
+  alertaExitoso(titulo : string){
     Swal.fire({
       position: "top-end",
       icon: "success",
@@ -161,48 +156,36 @@ export class EventoComponent implements OnInit {
       showConfirmButton: false,
       timer: 1500
     });
-   }
-
-   alertaRegistrar() {
-    Swal.fire({
-      title: '¿Estás seguro de registrar este evento?',
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonText: 'Sí, registrar',
-      cancelButtonText: 'Cancelar',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.alertaExitoso("Registrado");
-      }
-    });
-  }  
+  }
 
    titulo( titulo : string , id : any ){
     this.encabezado = `${titulo} evento`;
-
+    titulo == 'Crear' ? this.nameBoton = "Crear" : this.nameBoton = "Modificar";
     if( id != null ){
-      this.modoRegistro = false;
       this.obtenerEventoPorId(id);
     }
-    else {
-      this.modoRegistro = true; // cuando se registra
-      this.resertForm();
+  }
+
+  crearEditarEvento( boton : string ){
+    if( boton == "Crear" ){
+      this.alertaRegistrar()
+    }else{
+      this.alertaModificar()
     }
+  }
 
-   }
-
-   cerrarModal(){
+  cerrarModal(){
     const modalElement = document.getElementById('modalEvento')
     const modal = bootstrap.Modal.getInstance(modalElement)
     modal.hide();
-   }
+  }
 
-   resertForm(){
+  resertForm(){
     this.formEvento.reset();
-   }
+  }
 
-   cerrarBoton(){
+  cerrarBoton(){
     this.resertForm();
     this.cerrarModal();
-   }
+  }
 }

@@ -19,7 +19,7 @@ export class UsuarioService {
     return this.http.get<any[]>(`${this.url}/${id}`);
   }
 
-  registrarUsuario(request : any): Observable<any>{
+  registrarUsuario(request : any): Observable<any[]>{
     return this.http.post<any>(this.url, request);
   }
 

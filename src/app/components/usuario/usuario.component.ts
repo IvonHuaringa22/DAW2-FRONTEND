@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UsuarioService } from '../../services/usuario.service';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 
 declare var bootstrap : any;
@@ -15,10 +16,13 @@ export class UsuarioComponent implements OnInit {
   listaUsuario: any[] = [];
   status : number = 0;
   formUsuario : FormGroup;
+  formUpdateUsuario : FormGroup;
+
   title : string = 'Listado de usuarios';
   id !: number;
   encabezado : any;
   modoRegistro: boolean = true;
+  nameBoton : any;
 
   constructor(
     private _usuarioService: UsuarioService
@@ -27,6 +31,11 @@ export class UsuarioComponent implements OnInit {
       nombre : new FormControl(null),
       correo : new FormControl(null),
       contrasenia : new FormControl(null),
+      rol : new FormControl(null),
+    })
+    this.formUpdateUsuario = new FormGroup({
+      nombre : new FormControl(null),
+      correo : new FormControl(null),
       rol : new FormControl(null),
     })
   }
@@ -38,10 +47,15 @@ export class UsuarioComponent implements OnInit {
 
   initForm(){
       this.formUsuario = new FormGroup({
+        nombre : new FormControl(null, Validators.required),
+        correo : new FormControl(null, [Validators.required, Validators.email]),
+        contrasenia : new FormControl(null, Validators.required),
+        rol : new FormControl('ADMIN', Validators.required),
+      })
+      this.formUpdateUsuario = new FormGroup({
         nombre : new FormControl(null),
         correo : new FormControl(null),
-        contrasenia : new FormControl(null),
-        rol : new FormControl('A'),
+        rol : new FormControl('ADMIN'),
       })
   }
 
@@ -54,7 +68,7 @@ export class UsuarioComponent implements OnInit {
   }
 
   obtenerUsuarioPorId(id : number){
-    let form = this.formUsuario
+    let form = this.formUpdateUsuario
     this.id = id
     this._usuarioService.obtenerUsuarioPorId(id)
     .subscribe( (data : any) => {
@@ -65,34 +79,70 @@ export class UsuarioComponent implements OnInit {
     })
    }
 
-  registrarUsuario() {
-    if (this.formUsuario.valid) {
-      this._usuarioService.registrarUsuario(this.formUsuario.value)
-        .subscribe(response => {
-          this.cerrarModal();
-          this.obtenerUsuario();
-          this.resertForm();
-          this.alertExitoso("registrado");
-          console.log("Usuario registrado:", response);
-        }, error => {
-          console.error("Error al registrar usuario:", error);
-        });
-    }
-  } 
-
-  editarUsuario(id : number, formulario : any) : void{
+   registrarUsuario(request : any) {
     if(this.formUsuario.valid){
-      this._usuarioService.actualizarUsuario(id, formulario)
+      this._usuarioService.registrarUsuario(request)
+      .subscribe( response => {
+        console.log("Respuesta: ", response)
+        this.cerrarModal();
+        this.obtenerUsuario();
+        this.resertForm();
+      })
+    }else{
+      Object.values(this.formUsuario.controls).forEach(control => {
+        control.markAsTouched();
+      });
+      console.error('Formulario no valido')
+      this.status = 0;
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Datos incompletos',
+        showConfirmButton: false,
+        timer: 1500
+      });
+      this.status = 1;
+    }
+   } 
+
+  editarUsuario(id : number, request : any) : void{
+    if(this.formUpdateUsuario.valid){
+      this._usuarioService.actualizarUsuario(id, request)
       .subscribe( response => {
         this.cerrarModal();
         this.obtenerUsuario();
         this.resertForm();
-        console.log('Usuario modificado: ' , response)
+        this.alertaExitoso("Actualizado");
       }, error => {
         console.error('Error al modificar el registro: ', error)
       } )
+    }else{
+      console.error('Formulario no valido')
+      this.status = 0;
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Datos incompletos',
+        showConfirmButton: false,
+        timer: 1500
+      });
+      this.status = 1;
     }
   }
+
+  alertaRegistrar() {
+    Swal.fire({
+      title: '¿Estás seguro de registrar este usuario?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, registrar',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.registrarUsuario(this.formUsuario.value)
+      }
+    });
+  }  
 
   alertaModificar(){
     Swal.fire({
@@ -103,21 +153,12 @@ export class UsuarioComponent implements OnInit {
       cancelButtonText: 'Cancelar',
     }).then( (result) => {
       if(result.isConfirmed){
-        this.editarUsuario(this.id, this.formUsuario.value)
-        this.alertExitoso("actualizada");
+        this.editarUsuario(this.id, this.formUpdateUsuario.value)
       }
     })
    }
 
-   guardarUsuario() {
-    if (this.id != null) {
-      this.alertaModificar();
-    } else {
-      this.registrarUsuario();
-    }
-  }
-
-   alertEliminar(id : number){
+   alertaEliminar(id : number){
     Swal.fire({
       title: '¿Estas seguro de eliminar el registro?',
       icon: 'error',
@@ -133,14 +174,14 @@ export class UsuarioComponent implements OnInit {
         }, error => {
           console.error('Error en la eliminacion del registro', error)
         });
-
-        this.alertExitoso("eliminada");
-
+        this.alertaExitoso("eliminada");
+        this.cerrarModal();
+        this.obtenerUsuario();
       }
     })
    }
 
-   alertExitoso(titulo : string){
+   alertaExitoso(titulo : string){
     Swal.fire({
       position: "top-end",
       icon: "success",
@@ -150,48 +191,56 @@ export class UsuarioComponent implements OnInit {
     });
    }
 
-   alertaRegistrar() {
-    Swal.fire({
-      title: '¿Estás seguro de registrar este usuario?',
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonText: 'Sí, registrar',
-      cancelButtonText: 'Cancelar',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.alertExitoso("Registrado");
-      }
-    });
-  }  
-
    titulo( titulo : string , id : any ){
     this.encabezado = `${titulo} usuario`;
-
+    titulo == 'Crear' ? this.nameBoton = "Crear" : this.nameBoton = "Modificar";
     if( id != null ){
-      this.modoRegistro = false;
       this.obtenerUsuarioPorId(id);
     }
-    else {
-      this.modoRegistro = true; // cuando se registra
-      this.resertForm();
+  }
+
+  crearEditarUsuario( boton : string ){
+    if( boton == "Crear" ){
+      this.alertaRegistrar()
+    }else{
+      this.alertaModificar()
     }
+  }
 
-   }
+  cerrarModal(){
+    const modalElement = document.getElementById('modalUsuario');
+    if (modalElement) {
+      let modal = bootstrap.Modal.getInstance(modalElement);
+      if (!modal) {
+        modal = new bootstrap.Modal(modalElement);
+      }
+      modal.hide();
+    }
+  }
 
-   cerrarModal(){
-    const modalElement = document.getElementById('modalUsuario')
-    const modal = bootstrap.Modal.getInstance(modalElement)
-    modal.hide();
-   }
+  cerrarModalEdit() {
+    const modalEditElement = document.getElementById('modalUpdateUsuario');
+    if (modalEditElement) {
+      let modalEdit = bootstrap.Modal.getInstance(modalEditElement);
+      if (!modalEdit) {
+        modalEdit = new bootstrap.Modal(modalEditElement);
+      }
+      modalEdit.hide();
+    }
+  }
 
-   resertForm(){
+  resertForm(){
     this.formUsuario.reset();
     this.formUsuario.controls['rol'].setValue('A')
-   }
+  }
 
-   cerrarBoton(){
+  cerrarBoton(boton: string) {
     this.resertForm();
-    this.cerrarModal();
-   }
-
+    if (boton === "Crear") {
+      this.cerrarModal();
+    } else {
+      this.cerrarModalEdit();
+    }
+  }
+  
 }

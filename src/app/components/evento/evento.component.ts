@@ -141,9 +141,9 @@ export class EventoComponent implements OnInit {
         }, error => {
           console.error('Error en la eliminacion del registro', error)
         });
-
         this.alertaExitoso("eliminada");
-
+        this.cerrarModal();
+        this.obtenerEvento();
       }
     })
   }

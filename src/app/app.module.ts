@@ -6,18 +6,24 @@ import { AppComponent } from './app.component';
 import { UsuarioComponent } from './components/usuario/usuario.component';
 import { HttpClientModule } from '@angular/common/http';
 import { EventoComponent } from './components/evento/evento.component';
+import { MenuComponent } from './components/menu/menu.component';
+import { LoginComponent } from './components/login/login.component';
+import { FormsModule } from '@angular/forms'; // Import FormsModule
 
 @NgModule({
   declarations: [
     AppComponent,
     UsuarioComponent,
-    EventoComponent
+    EventoComponent,
+    LoginComponent,
+    MenuComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule // Add FormsModule to imports
   ],
   providers: [],
   bootstrap: [AppComponent]

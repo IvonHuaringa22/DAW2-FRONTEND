@@ -1,0 +1,14 @@
+<div *ngIf="rol === 'ADMIN'">
+    <h2>Bienvenido, Administrador</h2>
+    <button (click)="irAUsuarios()">Gestionar Usuarios</button>
+    <button (click)="irAEventos()">Gestionar Eventos</button>
+  </div>
+  
+  <div *ngIf="rol === 'USER'">
+    <h2>Bienvenido, Usuario</h2>
+    <button (click)="irAEventos()">Ver Eventos</button>
+  </div>
+  
+  <button (click)="logout()">Cerrar sesión</button>
+  
+  

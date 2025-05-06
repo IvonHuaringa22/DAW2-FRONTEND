@@ -81,6 +81,20 @@ export class EventoComponent implements OnInit {
         this.obtenerEvento();
         this.resertForm();
       })
+    }else{
+      Object.values(this.formEvento.controls).forEach(control => {
+        control.markAsTouched();
+      });
+      console.error('Formulario no valido')
+      this.status = 0;
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Datos incompletos',
+        showConfirmButton: false,
+        timer: 1500
+      });
+      this.status = 1;
     }
    }
 
@@ -91,10 +105,21 @@ export class EventoComponent implements OnInit {
     this.cerrarModal();
     this.obtenerEvento();
     this.resertForm();
-    console.log('Evento modificado: ' , response)
+    this.alertaExitoso("Actualizado");
     }, error => {
     console.error('Error al modificar el registro: ', error)
     } )
+    }else{
+      console.error('Formulario no valido')
+      this.status = 0;
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Datos incompletos',
+        showConfirmButton: false,
+        timer: 1500
+      });
+      this.status = 1;
     }
   }
 

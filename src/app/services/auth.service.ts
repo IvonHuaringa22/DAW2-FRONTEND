@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private apiUrl = 'http://localhost:8080'; // Ajusta según tu backend
+  private apiUrl = 'http://localhost:8080';
 
   constructor(private http: HttpClient) {}
 
@@ -12,10 +12,10 @@ export class AuthService {
     const headers = new HttpHeaders({
       'Authorization': 'Basic ' + btoa(`${correo}:${contrasenia}`)
     });
-    return this.http.get(`${this.apiUrl}/api/usuario/loguear`, { headers });
+    return this.http.get(`${this.apiUrl}/api/usuario`, { headers });
   }
 
-  // Guarda el rol en localStorage (simple ejemplo)
+  // Guarda el rol en localStorage
   guardarSesion(rol: string) {
     localStorage.setItem('rol', rol);
   }

@@ -5,7 +5,7 @@ import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrls: ['./login.component.css']
 })
 
 export class LoginComponent {
@@ -18,9 +18,17 @@ export class LoginComponent {
   login() {
     this.auth.login(this.correo, this.contrasenia).subscribe({
       next: (data: any) => {
+        // Guardar las credenciales correctamente
+        localStorage.setItem('correo', this.correo);
+        localStorage.setItem('contrasenia', this.contrasenia);
+
         // Suponiendo que el backend devuelve los datos del usuario, incluido el rol
         this.auth.guardarSesion(data.rol);
-        this.router.navigate(['/menu']);
+        if (data.rol === 'ADMIN') {
+          this.router.navigate(['/menu']);
+        } else if (data.rol === 'USER') {
+          this.router.navigate(['/eventos']);
+        }
       },
       error: () => {
         this.error = 'Credenciales incorrectas';

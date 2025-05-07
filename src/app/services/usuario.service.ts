@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -12,22 +12,34 @@ export class UsuarioService {
   constructor(private http: HttpClient) {}
 
   listarUsuario(): Observable<any[]>{
-    return this.http.get<any[]>(this.url);
+    const headers = this.obtenerHeaders();
+    return this.http.get<any[]>(this.url,{ headers });
   }
 
   obtenerUsuarioPorId(id : number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.url}/${id}`);
+    const headers = this.obtenerHeaders();
+    return this.http.get<any[]>(`${this.url}/${id}`, { headers });
   }
 
   registrarUsuario(request : any): Observable<any[]>{
-    return this.http.post<any>(this.url, request);
+    const headers = this.obtenerHeaders();
+    return this.http.post<any>(this.url, request, { headers });
   }
 
   actualizarUsuario(id : number, request : any): Observable<any[]>{
-    return this.http.put<any[]>(`${this.url}/${id}`, request);
+    const headers = this.obtenerHeaders();
+    return this.http.put<any[]>(`${this.url}/${id}`, request, { headers });
   }
 
   eliminarUsuario(id : number): Observable<any[]> {
-    return this.http.delete<any[]>(`${this.url}/${id}`);
+    const headers = this.obtenerHeaders();
+    return this.http.delete<any[]>(`${this.url}/${id}`, { headers });
+  }
+
+  private obtenerHeaders(): HttpHeaders {
+    const correo = localStorage.getItem('correo');
+    const contrasenia = localStorage.getItem('contrasenia');
+    const authHeader = 'Basic ' + btoa(`${correo}:${contrasenia}`);
+    return new HttpHeaders().set('Authorization', authHeader);
   }
 }

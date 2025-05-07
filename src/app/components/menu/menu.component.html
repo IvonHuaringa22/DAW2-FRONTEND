@@ -1,14 +1,22 @@
-<div *ngIf="rol === 'ADMIN'">
-    <h2>Bienvenido, Administrador</h2>
-    <button (click)="irAUsuarios()">Gestionar Usuarios</button>
-    <button (click)="irAEventos()">Gestionar Eventos</button>
+<div class="container mt-5">
+  <div class="card shadow p-4">
+    <div *ngIf="rol === 'ADMIN'">
+      <h2 class="text-primary mb-4">Bienvenido Administrador</h2>
+      <div class="d-grid gap-2">
+        <button class="btn btn-outline-primary" (click)="irAUsuarios()">Gestionar Usuarios</button>
+        <button class="btn btn-outline-success" (click)="irAEventos()">Gestionar Eventos</button>
+      </div>
+    </div>
+
+    <div *ngIf="rol === 'USER'">
+      <h2 class="text-success mb-4">Bienvenido, Usuario</h2>
+      <div class="d-grid gap-2">
+        <button class="btn btn-outline-info" (click)="irAEventos()">Ver Eventos</button>
+      </div>
+    </div>
+
+    <div class="text-end mt-4">
+      <button class="btn btn-danger" (click)="logout()">Cerrar sesión</button>
+    </div>
   </div>
-  
-  <div *ngIf="rol === 'USER'">
-    <h2>Bienvenido, Usuario</h2>
-    <button (click)="irAEventos()">Ver Eventos</button>
-  </div>
-  
-  <button (click)="logout()">Cerrar sesión</button>
-  
-  
+</div>

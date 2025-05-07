@@ -12,7 +12,7 @@ export class AuthService {
     const headers = new HttpHeaders({
       'Authorization': 'Basic ' + btoa(`${correo}:${contrasenia}`)
     });
-    return this.http.get(`${this.apiUrl}/api/usuario`, { headers });
+    return this.http.get(`${this.apiUrl}/api/login`, { headers });
   }
 
   // Guarda el rol en localStorage
@@ -28,4 +28,4 @@ export class AuthService {
     localStorage.clear();
   }
 }
-//Hola
+

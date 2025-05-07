@@ -1,7 +1,24 @@
-<form (ngSubmit)="login()">
+
+
+<nav class="navbar">
+  <a>TICKET EASY</a>
+  <a> :) </a>
+</nav>
+
+<!-- Encabezado antes del login -->
+<div class="login-header">
+  <h1>Bienvenido a Ticket Easy</h1>
+  <p>Inicia sesión para gestionar y ver tus eventos favoritos</p>
+</div>
+
+<div class="content">
+  <router-outlet></router-outlet>
+</div>
+
+<form (ngSubmit)="login()" class="login-form">
     <input type="text" [(ngModel)]="correo" name="correo" placeholder="Correo" required>
     <input type="password" [(ngModel)]="contrasenia" name="contrasenia" placeholder="Contraseña" required>
     <button type="submit">Iniciar Sesión</button>
-    <p *ngIf="error">{{ error }}</p>
+    <p *ngIf="error" class="error-text">{{ error }}</p>
   </form>
   

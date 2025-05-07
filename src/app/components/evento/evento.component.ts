@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../../services/auth.service';
 import { EventoService } from '../../services/evento.service';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
 declare var bootstrap : any;
@@ -19,9 +21,12 @@ export class EventoComponent implements OnInit {
   id !: number;
   encabezado : any;
   nameBoton : any;
-
+  rol: any;
+  
   constructor(
-    private _eventoService: EventoService
+    private _eventoService: EventoService,
+    private auth: AuthService,
+  private router: Router
   ) {
     this.formEvento =  new FormGroup({
       nombreEvento : new FormControl(null),
@@ -33,9 +38,12 @@ export class EventoComponent implements OnInit {
     })
   }
 
+  
+
   ngOnInit(): void {
+    this.rol = localStorage.getItem('rol');
     this.obtenerEvento();
-    this.initForm();
+    this.initForm(); 
   }
 
   initForm(){
@@ -212,5 +220,10 @@ export class EventoComponent implements OnInit {
   cerrarBoton(){
     this.resertForm();
     this.cerrarModal();
+  }
+  
+  logout() {
+    this.auth.cerrarSesion();
+    this.router.navigate(['/login']);
   }
 }

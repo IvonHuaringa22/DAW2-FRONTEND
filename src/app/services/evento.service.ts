@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -12,22 +12,35 @@ export class EventoService {
   constructor(private http: HttpClient) {}
 
   listarEvento(): Observable<any[]>{
-    return this.http.get<any[]>(this.url);
+    const headers = this.obtenerHeaders();
+    return this.http.get<any[]>(this.url,{ headers });
   }
 
   obtenerEventoPorId(id : number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.url}/${id}`);
+    const headers = this.obtenerHeaders();
+    return this.http.get<any[]>(`${this.url}/${id}`,{ headers });
   }
 
   registrarEvento(request : any): Observable<any[]>{
-    return this.http.post<any>(this.url, request);
+    const headers = this.obtenerHeaders();
+    return this.http.post<any>(this.url, request,{ headers });
   }
 
   actualizarEvento(id : number, request : any): Observable<any[]>{
-    return this.http.put<any[]>(`${this.url}/${id}`, request);
+    const headers = this.obtenerHeaders();
+    return this.http.put<any[]>(`${this.url}/${id}`, request,{ headers });
   }
 
   eliminarEvento(id : number): Observable<any[]> {
-    return this.http.delete<any[]>(`${this.url}/${id}`);
+    const headers = this.obtenerHeaders();
+    return this.http.delete<any[]>(`${this.url}/${id}`,{ headers });
   }
+
+  private obtenerHeaders(): HttpHeaders {
+      const correo = localStorage.getItem('correo');
+      const contrasenia = localStorage.getItem('contrasenia');
+      const authHeader = 'Basic ' + btoa(`${correo}:${contrasenia}`);
+      return new HttpHeaders().set('Authorization', authHeader);
+    }
+
 }

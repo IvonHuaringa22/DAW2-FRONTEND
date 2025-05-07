@@ -7,10 +7,15 @@
             <h1 class="titulo-pagina"> {{ title }} </h1>
           </div>
           <div class="col-6 btn-agregar">
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalEvento" 
+            <button *ngIf="rol === 'ADMIN'" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalEvento" 
             (click)="titulo('Crear', null)">
                 Crear nuevo
             </button>
+
+            <div class="text-end mt-4" *ngIf="rol === 'USER'">
+              <button class="btn btn-danger" (click)="logout()">Cerrar sesión</button>
+            </div>
+
           </div>
         </div>
       </div>
@@ -28,8 +33,9 @@
               <th scope="col">Fecha</th>
               <th scope="col">Hora</th>
 			        <th scope="col">Descripción</th>
-              <th scope="col">Editar</th>
-              <th scope="col">Eliminar</th>
+              <th *ngIf="rol === 'ADMIN'" scope="col">Editar</th>
+              <th *ngIf="rol === 'ADMIN'" scope="col">Eliminar</th>
+              <th *ngIf="rol === 'USER'" scope="col"></th>
             </tr>
           </thead>
           <tbody>
@@ -41,14 +47,17 @@
               <td> {{ lista.fecha }} </td>
               <td> {{ lista.hora }} </td>
               <td> {{ lista.descripcion }} </td>
-              <td>
-                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalEvento"
+              <td *ngIf="rol === 'ADMIN'">
+                <button *ngIf="rol === 'ADMIN'" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalEvento"
                 (click)="titulo( 'Editar' ,lista.idEvento )">
                   Editar
                 </button>
               </td>
-              <td>
-                <button class="btn btn-danger" (click)="alertaEliminar( lista.idEvento )">Eliminar</button>
+              <td *ngIf="rol === 'ADMIN'">
+                <button *ngIf="rol === 'ADMIN'" class="btn btn-danger" (click)="alertaEliminar( lista.idEvento )">Eliminar</button>
+              </td>
+              <td *ngIf="rol === 'USER'">
+                <button *ngIf="rol === 'USER'" class="btn btn-danger" >Precios</button>
               </td>
             </tr>
           </tbody>

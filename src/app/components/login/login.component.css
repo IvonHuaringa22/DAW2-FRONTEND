@@ -1,83 +1,93 @@
-form {
-    max-width: 400px;
-    margin: 100px auto;
-    padding: 30px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-  }
-  
-  input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    box-sizing: border-box;
-  }
-  
-  button {
-    width: 100%;
-    padding: 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-  }
-  
-  p {
-    color: red;
-    text-align: center;
-  }
-  
-  .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: linear-gradient(to right, #0a328a, #1e5bc6);
-    padding: 1rem 2rem;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  }
+/* Contenedor principal */
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+  font-family: 'Segoe UI', sans-serif;
+}
 
-  .navbar a {
-    color: #fff;
-    text-decoration: none;
-    font-weight: 600;
-    margin: 0 1rem;
-    transition: color 0.3s ease;
-  }
+/* Encabezado */
+.login-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
 
-  .login-header {
-    text-align: center;
-    margin: 40px 0 20px;
-  }
-  
-  .login-header h1 {
-    font-size: 2em;
-    color: #333;
-  }
-  
-  .login-header p {
-    color: #666;
-    font-size: 1.1em;
-  }
-  
-  .login-form {
-    max-width: 400px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .login-form input,
-  .login-form button {
-    padding: 10px;
-    font-size: 1em;
-  }
-  
-  .error-text {
-    color: red;
-    text-align: center;
-  }
-  
+.login-header h1 {
+  font-size: 2.2em;
+  color: #0a328a;
+}
 
+.login-header p {
+  font-size: 1.1em;
+  color: #555;
+}
+
+/* Formulario */
+.login-form {
+  background-color: #ffffff;
+  padding: 30px 25px;
+  border-radius: 12px;
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1);
+  max-width: 380px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.login-form label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.95em;
+  color: #0a328a;
+}
+
+.login-form input {
+  padding: 12px;
+  border: 2px solid #cce4ff;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.login-form input:focus {
+  border-color: #00aaff;
+}
+
+/* Botón */
+.login-form button {
+  padding: 12px;
+  background-color: #00aaff;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.login-form button:hover {
+  background-color: #0090d6;
+}
+
+/* Enlace contraseña */
+.forgot-password {
+  color: #00aaff;
+  font-size: 0.9em;
+  text-decoration: none;
+  text-align: right;
+  display: block;
+  margin-top: -10px;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+}
+
+/* Error */
+.error-text {
+  color: red;
+  text-align: center;
+  margin-top: 10px;
+}

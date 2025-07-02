@@ -1,0 +1,75 @@
+/* Tarjeta principal */
+.card {
+  border-radius: 16px;
+  background-color: #ffffff;
+  border: none;
+  box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* Título */
+.card h2 {
+  font-size: 1.8em;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+/* Botones personalizados */
+.btn {
+  padding: 12px 16px;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-primary {
+  color: #007bff;
+  border: 2px solid #007bff;
+}
+
+.btn-outline-primary:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.btn-outline-success {
+  color: #28a745;
+  border: 2px solid #28a745;
+}
+
+.btn-outline-success:hover {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.btn-outline-info {
+  color: #17a2b8;
+  border: 2px solid #17a2b8;
+}
+
+.btn-outline-info:hover {
+  background-color: #17a2b8;
+  color: #fff;
+}
+
+.btn-danger {
+  border-radius: 12px;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+  .card h2 {
+    font-size: 1.5em;
+  }
+
+  .btn {
+    font-size: 0.95rem;
+    padding: 10px 14px;
+  }
+}

@@ -1,33 +1,33 @@
-/* Estilo para la barra de navegación */
-.navbar {
+.navbar-ticketeasy {
+  background-color: #0057ff; /* azul vibrante */
+  padding: 12px 24px;
+  color: white;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.navbar-container {
+  max-width: 1200px;
+  margin: 0 auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: linear-gradient(to right, #0a328a, #1e5bc6);
-  padding: 1rem 2rem;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.navbar a {
-  color: #fff;
-  text-decoration: none;
+.navbar-brand {
+  font-style: italic;
   font-weight: 600;
-  margin: 0 1rem;
-  transition: color 0.3s ease;
-}
-
-.navbar a:hover {
-  color: #ffdd57;
+  font-size: 1.2rem;
+  color: white;
   text-decoration: none;
 }
 
-.active-link {
-  border-bottom: 2px solid #ffdd57;
+.navbar-link {
+  font-size: 1rem;
+  color: white;
+  text-decoration: none;
+  transition: opacity 0.3s ease;
 }
 
-/* Estilo para el contenido principal */
-.content {
-  padding: 1rem;
-  font-family: Arial, sans-serif;
+.navbar-link:hover {
+  opacity: 0.8;
 }

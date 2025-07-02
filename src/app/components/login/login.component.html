@@ -1,17 +1,25 @@
-<!-- Encabezado antes del login -->
-<div class="login-header">
-  <h1>Bienvenido a Ticket Easy</h1>
-  <p>Inicia sesión para gestionar y ver tus eventos favoritos</p>
-</div>
+<div class="login-container">
+  <div class="login-header">
+    <h1>Bienvenido a Ticket Easy</h1>
+    <p>Inicia sesión para gestionar y ver tus eventos favoritos</p>
+  </div>
 
-<div class="content">
-  <router-outlet></router-outlet>
-</div>
+  <form (ngSubmit)="login()" class="login-form">
+    <label>
+      <span>Email</span>
+      <input type="text" [(ngModel)]="correo" name="correo" placeholder="correo@ejemplo.com" required>
+    </label>
 
-<form (ngSubmit)="login()" class="login-form">
-    <input type="text" [(ngModel)]="correo" name="correo" placeholder="Correo" required>
-    <input type="password" [(ngModel)]="contrasenia" name="contrasenia" placeholder="Contraseña" required>
+    <label>
+      <span>Contraseña</span>
+      <input type="password" [(ngModel)]="contrasenia" name="contrasenia" placeholder="********" required>
+    </label>
+
+    <a class="forgot-password" routerLink="/recuperar">¿Olvidaste tu contraseña?</a>
+
     <button type="submit">Iniciar Sesión</button>
+
     <p *ngIf="error" class="error-text">{{ error }}</p>
   </form>
-  
+</div>
+

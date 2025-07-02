@@ -9,6 +9,9 @@ import { EventoComponent } from './components/evento/evento.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { LoginComponent } from './components/login/login.component';
 import { FormsModule } from '@angular/forms'; // Import FormsModule
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { LoginInterceptor } from './components/helpers/login.interceptor';
+
 
 @NgModule({
   declarations: [
@@ -25,7 +28,11 @@ import { FormsModule } from '@angular/forms'; // Import FormsModule
     HttpClientModule,
     FormsModule // Add FormsModule to imports
   ],
-  providers: [],
+  providers: [{
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoginInterceptor,
+      multi: true
+    }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

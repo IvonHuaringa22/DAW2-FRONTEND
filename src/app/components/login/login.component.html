@@ -1,16 +1,18 @@
-<!-- Encabezado antes del login -->
-<div class="login-header">
-  <h1>Bienvenido a Ticket Easy</h1>
-  <p>Inicia sesión para gestionar y ver tus eventos favoritos</p>
-</div>
+<div class="login-container">
+  <div class="login-header">
+    <h1>Bienvenido a Ticket Easy</h1>
+    <p>Inicia sesión para gestionar y ver tus eventos favoritos</p>
+  </div>
 
-<div class="content">
-  <router-outlet></router-outlet>
-</div>
+  <div class="content">
+    <router-outlet></router-outlet>
+  </div>
 
-<form [formGroup]="formLogin" (ngSubmit)="login()" class="login-form">
-  <input type="email" formControlName="correo" placeholder="Correo electrónico" required>
-  <input type="password" formControlName="contrasenia" placeholder="Contraseña" required>
-  <button type="submit" [disabled]="formLogin.invalid">Iniciar Sesión</button>
-  <p *ngIf="error" class="error-text">{{ error }}</p>
-</form>
+  <form [formGroup]="formLogin" (ngSubmit)="login()" class="login-form">
+    <input type="email" formControlName="correo" placeholder="Correo electrónico" required>
+    <input type="password" formControlName="contrasenia" placeholder="Contraseña" required>
+    <a class="forgot-password" routerLink="/recuperar">¿Olvidaste tu contraseña?</a>
+    <button type="submit" [disabled]="formLogin.invalid">Iniciar Sesión</button>
+    <p *ngIf="error" class="error-text">{{ error }}</p>
+  </form>
+</div>

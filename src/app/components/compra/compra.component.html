@@ -1,0 +1,28 @@
+<div class="container mt-4">
+  <h2 class="mb-3">Listado de Compras</h2>
+
+  <table class="table table-bordered table-hover">
+    <thead class="table-dark">
+      <tr>
+            <th scope="col">#</th>
+            <th scope="col">Correo</th>
+            <th scope="col">Método de Pago</th>
+            <th scope="col">Estado de Pago</th>
+            <th scope="col">Fecha</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let compra of compras; index as i">
+            <td>{{ i + 1 }}</td>
+            <td>{{ compra.usuario?.correo }}</td> <!-- 👈 correo en lugar de idUsuario -->
+            <td>{{ compra.metodoPago }}</td>
+            <td>{{ compra.estadoPago }}</td>
+            <td>{{ compra.fechaCompra | date: 'dd/MM/yyyy HH:mm' }}</td>
+        </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="compras.length === 0" class="text-center mt-4 text-muted">
+    No se han realizado compras aún.
+  </div>
+</div>

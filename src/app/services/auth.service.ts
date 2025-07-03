@@ -33,9 +33,13 @@ export class AuthService {
         localStorage.setItem('token', token);
         const payload = JSON.parse(atob(token.split('.')[1]));
         const rol = payload.rol || null;
+        const correoPayload = payload.sub || payload.correo || null;
 
         if (rol) {
           localStorage.setItem('rol', rol);
+        }
+        if (correoPayload) {
+        localStorage.setItem('correo', correoPayload); // ✅ Aquí lo guardas
         }
       } else {
         console.error('Token no recibido');

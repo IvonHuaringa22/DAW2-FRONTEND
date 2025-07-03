@@ -33,8 +33,8 @@
               <th scope="col">Fecha</th>
               <th scope="col">Hora</th>
 			        <th scope="col">Descripción</th>
+              <th scope="col">Disponibilidad</th>
               <th *ngIf="rol === 'ADMIN'" scope="col">Editar</th>
-              <th *ngIf="rol === 'ADMIN'" scope="col">Eliminar</th>
               <th *ngIf="rol === 'USER'" scope="col"></th>
             </tr>
           </thead>
@@ -47,17 +47,23 @@
               <td> {{ lista.fecha }} </td>
               <td> {{ lista.hora }} </td>
               <td> {{ lista.descripcion }} </td>
+              <td>
+                <span [ngClass]="{
+                  'badge text-bg-success': lista.disponibilidad === 'Disponible',
+                  'badge text-bg-danger': lista.disponibilidad === 'No disponible'
+                }">
+                  {{ lista.disponibilidad }}
+                </span>
+              </td>
               <td *ngIf="rol === 'ADMIN'">
                 <button *ngIf="rol === 'ADMIN'" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalEvento"
                 (click)="titulo( 'Editar' ,lista.idEvento )">
                   Editar
                 </button>
               </td>
-              <td *ngIf="rol === 'ADMIN'">
-                <button *ngIf="rol === 'ADMIN'" class="btn btn-danger" (click)="alertaEliminar( lista.idEvento )">Eliminar</button>
-              </td>
+            
               <td *ngIf="rol === 'USER'">
-                <button *ngIf="rol === 'USER'" class="btn btn-danger" >Precios</button>
+                <button *ngIf="rol === 'USER'" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalCompra" (click)="abrirFormularioCompra(lista)">Comprar</button>
               </td>
             </tr>
           </tbody>
@@ -123,6 +129,17 @@
                         La descripción es obligatoria
                       </div>
                     </div>
+                    <div class="form-floating mb-3">
+                      <select class="form-select" formControlName="disponibilidad" required>
+                        <option value="">Seleccione disponibilidad</option>
+                        <option value="Disponible">Disponible</option>
+                        <option value="No disponible">No Disponible</option>
+                      </select>
+                      <label for="Disponibilidad">Disponibilidad</label>
+                      <div *ngIf="formEvento.controls['disponibilidad'].touched && formEvento.controls['disponibilidad'].invalid" class="text-danger">
+                        Este campo es obligatorio
+                      </div>
+                    </div>
                   </div>
                 </div>
             </div>
@@ -143,6 +160,55 @@
           </td>
         </tr>
       </tfoot>
+    </div>
+
+          <!-- MODAL DE COMPRA -->
+    <div class="modal fade" id="modalCompra" tabindex="-1" aria-labelledby="modalCompraLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <form [formGroup]="compraForm" (ngSubmit)="confirmarCompra()" class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalCompraLabel">
+              Comprar Entradas - {{ eventoSeleccionado?.nombreEvento }}
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+
+          <div class="modal-body row g-3">
+
+            <div class="col-md-6">
+              <label class="form-label">Método de pago</label>
+              <select class="form-select" formControlName="metodoPago" required>
+                <option value="">Seleccione una opción</option>
+                <option value="TARJETA">Tarjeta</option>
+                <option value="EFECTIVO">Efectivo</option>
+              </select>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Zona</label>
+              <select class="form-select" formControlName="idZonaSeleccionada" (change)="actualizarPrecio()" required>
+                <option value="">Seleccione una zona</option>
+                <option *ngFor="let z of zonas" [value]="z.idZona">{{ z.nombreZona }}</option>
+              </select>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Precio</label>
+              <input class="form-control" [value]="precioZonaSeleccionada | currency:'PEN'" readonly>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Cantidad</label>
+              <input type="number" class="form-control" formControlName="cantidad" min="1" required>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-success">Confirmar Compra</button>
+          </div>
+        </form>
+      </div>
     </div>
 </div>
   

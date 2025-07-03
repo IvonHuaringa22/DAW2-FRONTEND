@@ -1,25 +1,30 @@
 <div class="container mt-5">
-  <div class="card shadow p-4">
+  <section class="card shadow p-4">
+    
+    <!-- Bloque para Administrador -->
     <div *ngIf="rol === 'ADMIN'">
-      <h2 class="text-primary mb-4">Bienvenido Administrador</h2>
-      <div class="d-grid gap-2">
+      <h2 class="mb-4">Bienvenido Administrador</h2>
+      <div class="d-grid gap-3 menu-buttons">
         <button class="btn btn-outline-primary" (click)="irAUsuarios()">Gestionar Usuarios</button>
         <button class="btn btn-outline-success" (click)="irAEventos()">Gestionar Eventos</button>
-        <button class="btn btn-outline-secondary" (click)="irAZonas()">Gestionar Zonas</button>
+        <button class="btn btn-outline-info" (click)="irAZonas()">Gestionar Zonas</button>
         <button class="btn btn-outline-warning" (click)="irATickets()">Gestionar Tickets</button>
         <button class="btn btn-outline-warning" (click)="irACompras()">Gestionar Compras</button>
       </div>
     </div>
 
+    <!-- Bloque para Usuario -->
     <div *ngIf="rol === 'USER'">
-      <h2 class="text-success mb-4">Bienvenido, Usuario</h2>
-      <div class="d-grid gap-2">
+      <h2 class="mb-4">Bienvenido, Usuario</h2>
+      <div class="d-grid gap-3 menu-buttons">
         <button class="btn btn-outline-info" (click)="irAEventos()">Ver Eventos</button>
       </div>
     </div>
 
+    <!-- Botón de Cerrar sesión -->
     <div class="text-end mt-4">
       <button class="btn btn-danger" (click)="logout()">Cerrar sesión</button>
-    </div>  
-  </div>
+    </div>
+
+  </section>
 </div>

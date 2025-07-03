@@ -36,11 +36,14 @@ export class EventoService {
     return this.http.delete<any[]>(`${this.url}/${id}`,{ headers });
   }
 
+  listarDisponibles(): Observable<any[]> {
+  const headers = this.obtenerHeaders();
+  return this.http.get<any[]>(`${this.url}/listarDisponibles`, { headers });
+  }
+
   private obtenerHeaders(): HttpHeaders {
-      const correo = localStorage.getItem('correo');
-      const contrasenia = localStorage.getItem('contrasenia');
-      const authHeader = 'Basic ' + btoa(`${correo}:${contrasenia}`);
-      return new HttpHeaders().set('Authorization', authHeader);
-    }
+  const token = localStorage.getItem('token');
+  return new HttpHeaders().set('Authorization', 'Bearer ' + token);
+}
 
 }

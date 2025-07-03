@@ -4,22 +4,10 @@
     <p>Inicia sesión para gestionar y ver tus eventos favoritos</p>
   </div>
 
-  <form (ngSubmit)="login()" class="login-form">
-    <label>
-      <span>Email</span>
-      <input type="text" [(ngModel)]="correo" name="correo" placeholder="correo@ejemplo.com" required>
-    </label>
-
-    <label>
-      <span>Contraseña</span>
-      <input type="password" [(ngModel)]="contrasenia" name="contrasenia" placeholder="********" required>
-    </label>
-
-    <a class="forgot-password" routerLink="/recuperar">¿Olvidaste tu contraseña?</a>
-
+<form (ngSubmit)="login()" class="login-form">
+    <input type="text" [(ngModel)]="correo" name="correo" placeholder="Correo" required>
+    <input type="password" [(ngModel)]="contrasenia" name="contrasenia" placeholder="Contraseña" required>
     <button type="submit">Iniciar Sesión</button>
-
     <p *ngIf="error" class="error-text">{{ error }}</p>
   </form>
-</div>
-
+  

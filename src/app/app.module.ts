@@ -1,3 +1,4 @@
+
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -11,6 +12,9 @@ import { LoginComponent } from './components/login/login.component';
 import { FormsModule } from '@angular/forms'; // Import FormsModule
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoginInterceptor } from './components/helpers/login.interceptor';
+import { TicketComponent } from './ticket/ticket.component';
+import { ZonaComponent } from './zona/zona.component';
+import { CompraComponent } from './components/compra/compra.component';
 
 
 @NgModule({
@@ -19,7 +23,10 @@ import { LoginInterceptor } from './components/helpers/login.interceptor';
     UsuarioComponent,
     EventoComponent,
     LoginComponent,
-    MenuComponent
+    MenuComponent,
+    TicketComponent,
+    ZonaComponent,
+    CompraComponent
   ],
   imports: [
     BrowserModule,

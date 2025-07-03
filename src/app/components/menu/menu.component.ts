@@ -23,6 +23,17 @@ export class MenuComponent implements OnInit {
     this.router.navigate(['/usuarios']);
   }
 
+  irAZonas() {
+  this.router.navigate(['/zonas']);
+}
+
+irATickets() {
+  this.router.navigate(['/tickets']);
+}
+irACompras() {
+  this.router.navigate(['/compras']);
+}
+
   logout() {
     this.auth.cerrarSesion();
     this.router.navigate(['/login']);
